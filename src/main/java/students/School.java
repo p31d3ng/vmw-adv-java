@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@FunctionalInterface
 interface StudentCriterion {
+//    void bad();
     boolean test(Student s);
+}
+
+interface Silly {
+    boolean oddity(Student s);
 }
 //
 //class SmartCriterion implements StudentCriterion {
@@ -70,5 +76,10 @@ public class School {
         showStudents(getStudentByCriterion(roster, Student.getSmartCriterion()));
         System.out.println("Enthusiastic:");
         showStudents(getStudentByCriterion(roster, Student.getEnthusiasticCriterion()));
+
+        StudentCriterion obj;
+        obj = s -> s.getCourses().size() > 3;
+
+        boolean isSmart = ((Silly)(s -> s.getCourses().size() > 3)).oddity(Student.ofNameGpaCourses("Alan", 2.2));
     }
 }

@@ -100,8 +100,14 @@ public class Student {
 //        }
 //    /*}*/;
 
-    private static StudentCriterion enthusiasticCriterion = (Student s) -> {
-            return s.getCourses().size() > 3;
-        };
+//    private static StudentCriterion enthusiasticCriterion = (Student s) -> {
+//            return s.getCourses().size() > 3;
+//        };
+
+//    private static StudentCriterion enthusiasticCriterion = s -> {
+//            return s.getCourses().size() > 3;
+//        };
+
+    private static StudentCriterion enthusiasticCriterion = s -> s.getCourses().size() > 3 ;
 
 }
