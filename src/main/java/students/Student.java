@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Student {
     private String name;
@@ -12,13 +13,6 @@ public class Student {
 
     private Student(){}
 
-
-    /*
-        Student.ofNameGpaCourses("Fred", 3.2, "Math", "Physics");
-        // or
-        String [] courses = new String[] { "Math", "Physics"} ;
-        Student.ofNameGpaCourses("Fred", 3.2, courses);
-     */
     public static Student ofNameGpaCourses(String name, double gpa, String ... courses) {
         if (gpa < 0 || gpa > 5 || name == null) throw new IllegalArgumentException("Bad stuff for making students!");
         Student self = new Student();
@@ -37,7 +31,6 @@ public class Student {
     }
 
     public List<String> getCourses() {
-//        return Collections.unmodifiableList(courses);
         return courses;
     }
 
@@ -56,58 +49,22 @@ public class Student {
                 '}';
     }
 
-    public static StudentCriterion getSmartCriterion() {
+    public static Predicate<Student> getSmartCriterion() {
         return smartCriterion;
     }
 
-    private static StudentCriterion smartCriterion = new SmartCriterion();
+    private static Predicate<Student> smartCriterion = new SmartCriterion();
 
-    private static class SmartCriterion implements StudentCriterion {
+    private static class SmartCriterion implements Predicate<Student> {
         public boolean test(Student s) {
             return s.getGpa() > 3.0;
         }
     }
 
-    public static StudentCriterion getEnthusiasticCriterion() {
+    public static Predicate<Student> getEnthusiasticCriterion() {
         return enthusiasticCriterion;
     }
 
-//    private static StudentCriterion enthusiasticCriterion = new EnthusiasticCriterion();
-//
-//    private static class EnthusiasticCriterion implements StudentCriterion {
-//        public boolean test(Student s) {
-//            return s.getCourses().size() > 3;
-//        }
-//    }
-
-//    private static StudentCriterion enthusiasticCriterion = new /*EnthusiasticCriterion();
-//
-//    private static class EnthusiasticCriterion implements */ StudentCriterion() {
-//        public boolean test(Student s) {
-//            return s.getCourses().size() > 3;
-//        }
-//    };
-
-//    private static StudentCriterion enthusiasticCriterion = new StudentCriterion() {
-//        public boolean test(Student s) {
-//            return s.getCourses().size() > 3;
-//        }
-//    };
-
-//    private static StudentCriterion enthusiasticCriterion = /*new StudentCriterion() {*/
-//        /*public boolean test*/(Student s) -> {
-//            return s.getCourses().size() > 3;
-//        }
-//    /*}*/;
-
-//    private static StudentCriterion enthusiasticCriterion = (Student s) -> {
-//            return s.getCourses().size() > 3;
-//        };
-
-//    private static StudentCriterion enthusiasticCriterion = s -> {
-//            return s.getCourses().size() > 3;
-//        };
-
-    private static StudentCriterion enthusiasticCriterion = s -> s.getCourses().size() > 3 ;
+    private static Predicate<Student> enthusiasticCriterion = s -> s.getCourses().size() > 3 ;
 
 }
