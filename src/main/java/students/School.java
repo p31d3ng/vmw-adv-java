@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class School {
+
+    public static Predicate<Student> negate(Predicate<Student> crit) {
+        return s -> !crit.test(s);
+    }
+
     public static void showStudents(Iterable<Student> ls) {
         for (Student s : ls) {
             System.out.println("> " + s);
@@ -31,8 +36,22 @@ public class School {
         );
 
         System.out.println("Smart:");
-        showStudents(getStudentByCriterion(roster, Student.getSmartCriterion()));
+        showStudents(getStudentByCriterion(roster, Student.getSmartCriterion(3)));
+
+        System.out.println("negate-Smart:");
+        showStudents(getStudentByCriterion(roster, negate(Student.getSmartCriterion(3))));
+
+        System.out.println("Very Smart:");
+        showStudents(getStudentByCriterion(roster, Student.getSmartCriterion(3.5)));
+
+        System.out.println("negate-Very Smart:");
+        showStudents(getStudentByCriterion(roster, negate(Student.getSmartCriterion(3.5))));
+
         System.out.println("Enthusiastic:");
         showStudents(getStudentByCriterion(roster, Student.getEnthusiasticCriterion()));
+        System.out.println("Not Smart:");
+        showStudents(getStudentByCriterion(roster, x -> x.getGpa() < 3.5));
+        System.out.println("Smart but not enthusiastic:");
+        showStudents(getStudentByCriterion(roster, x -> x.getGpa() > 3 && x.getCourses().size() < 4));
     }
 }

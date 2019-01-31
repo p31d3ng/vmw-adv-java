@@ -49,17 +49,17 @@ public class Student {
                 '}';
     }
 
-    public static Predicate<Student> getSmartCriterion() {
-        return smartCriterion;
+    public static Predicate<Student> getSmartCriterion(double threshold)
+    {
+        final double t1 = threshold+0.5;
+        return s -> s.getGpa() > t1;
     }
 
-    private static Predicate<Student> smartCriterion = new SmartCriterion();
-
-    private static class SmartCriterion implements Predicate<Student> {
-        public boolean test(Student s) {
-            return s.getGpa() > 3.0;
-        }
-    }
+//    public static Predicate<Student> getSmartCriterion() {
+//        return smartCriterion;
+//    }
+//
+//    private static Predicate<Student> smartCriterion = s -> s.getGpa() > 3;
 
     public static Predicate<Student> getEnthusiasticCriterion() {
         return enthusiasticCriterion;
