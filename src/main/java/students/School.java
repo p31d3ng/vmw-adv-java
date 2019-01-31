@@ -94,7 +94,7 @@ public class School {
         System.out.println("not very enthusiastic and is called Jim");
 //        showStudents(getStudentByCriterion(roster, and(negate(isEnthusiastic),nameBeginsWithJim)));
         showStudents(getStudentByCriterion(roster, isEnthusiastic.negate().and(nameBeginsWithJim)));
-        
+
         List<String> names = Arrays.asList("Fred", "Jim", "Sheila");
         showStudents(getStudentByCriterion(names, s -> s.length() > 3));
     }
