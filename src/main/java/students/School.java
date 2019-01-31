@@ -28,16 +28,25 @@ public class School {
         return s -> !crit.test(s);
     }
 
-    public static void showStudents(Iterable<Student> ls) {
-        for (Student s : ls) {
+    public static <E> void showStudents(Iterable<E> ls) {
+        for (E s : ls) {
             System.out.println("> " + s);
         }
         System.out.println("----------------------------------");
     }
 
-    public static List<Student> getStudentByCriterion(Iterable<Student> ls, Predicate<Student> crit) {
-        List<Student> results = new ArrayList<>();
-        for (Student s : ls) {
+//    public static List<Student> getStudentByCriterion(Iterable<Student> ls, Predicate<Student> crit) {
+//        List<Student> results = new ArrayList<>();
+//        for (Student s : ls) {
+//            if (crit.test(s)) {
+//                results.add(s);
+//            }
+//        }
+//        return results;
+//    }
+    public static <E> List<E> getStudentByCriterion(Iterable<E> ls, Predicate<E> crit) {
+        List<E> results = new ArrayList<>();
+        for (E s : ls) {
             if (crit.test(s)) {
                 results.add(s);
             }
@@ -85,7 +94,8 @@ public class School {
         System.out.println("not very enthusiastic and is called Jim");
 //        showStudents(getStudentByCriterion(roster, and(negate(isEnthusiastic),nameBeginsWithJim)));
         showStudents(getStudentByCriterion(roster, isEnthusiastic.negate().and(nameBeginsWithJim)));
-
-
+        
+        List<String> names = Arrays.asList("Fred", "Jim", "Sheila");
+        showStudents(getStudentByCriterion(names, s -> s.length() > 3));
     }
 }
