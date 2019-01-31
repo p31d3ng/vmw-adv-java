@@ -7,6 +7,23 @@ import java.util.function.Predicate;
 
 public class School {
 
+    public static Predicate<Student> and(Predicate<Student> ... crits) {
+        return s -> {
+            for (Predicate<Student> ps : crits) {
+                if (!ps.test(s)) return false;
+            }
+            return true;
+        };
+    }
+
+    public static Predicate<Student> and(Predicate<Student> c1, Predicate<Student> c2) {
+        return s -> c1.test(s) && c2.test(s);
+    }
+
+    public static Predicate<Student> or(Predicate<Student> c1, Predicate<Student> c2) {
+        return s -> c1.test(s) || c2.test(s);
+    }
+
     public static Predicate<Student> negate(Predicate<Student> crit) {
         return s -> !crit.test(s);
     }
@@ -32,6 +49,9 @@ public class School {
         List<Student> roster = Arrays.asList(
                 Student.ofNameGpaCourses("Fred", 3.2, "Math", "Physics"),
                 Student.ofNameGpaCourses("Jim", 2.2, "Art"),
+                Student.ofNameGpaCourses("Jim1", 2.2, "Art", "History", "Politics", "Religion"),
+                Student.ofNameGpaCourses("Jim2", 1 ),
+                Student.ofNameGpaCourses("Jim3", 3.9, "Art"),
                 Student.ofNameGpaCourses("Sheila", 3.9, "Math", "Physics", "Quantum Mechanics", "Astrophysics")
         );
 
@@ -53,5 +73,19 @@ public class School {
         showStudents(getStudentByCriterion(roster, x -> x.getGpa() < 3.5));
         System.out.println("Smart but not enthusiastic:");
         showStudents(getStudentByCriterion(roster, x -> x.getGpa() > 3 && x.getCourses().size() < 4));
+
+        Predicate<Student> nameBeginsWithJim = s -> s.getName().startsWith("Jim");
+        System.out.println("name begins with Jim");
+        showStudents(getStudentByCriterion(roster, nameBeginsWithJim));
+
+        Predicate<Student> isEnthusiastic = s -> s.getCourses().size() > 3;
+        System.out.println("Very enthusiastic");
+        showStudents(getStudentByCriterion(roster, isEnthusiastic));
+
+        System.out.println("not very enthusiastic and is called Jim");
+//        showStudents(getStudentByCriterion(roster, and(negate(isEnthusiastic),nameBeginsWithJim)));
+        showStudents(getStudentByCriterion(roster, isEnthusiastic.negate().and(nameBeginsWithJim)));
+
+
     }
 }
