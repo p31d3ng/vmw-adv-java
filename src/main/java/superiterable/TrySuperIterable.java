@@ -123,9 +123,13 @@ public class TrySuperIterable {
                 .flatMap(s -> s.getCourses().stream().map(c -> s.getName() + " takes " + c))
                 .forEach(System.out::println);
 
-        Map<String, Long> theMap = studentList.stream()
+        Map<String, List<Student>> map = studentList.stream()
+                .collect(Collectors.groupingBy(TrySuperIterable::getLetterGrade));
+        System.out.println("Results:\n" + map);
+
+        Map<String, Long> map2 = studentList.stream()
                 .collect(Collectors.groupingBy(TrySuperIterable::getLetterGrade, Collectors.counting()));
-        System.out.println("Results:\n" + theMap);
+        System.out.println("Results:\n" + map2);
     }
 
 

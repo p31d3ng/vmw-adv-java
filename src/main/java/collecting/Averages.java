@@ -1,5 +1,6 @@
 package collecting;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.DoubleStream;
@@ -21,11 +22,11 @@ class Average {
         this.sum += other.sum;
     }
 
-    public OptionalDouble get() {
+    public Optional<Double> get() {
         if (count > 0) {
-            return OptionalDouble.of(sum / count);
+            return Optional.of(sum / count);
         } else {
-            return OptionalDouble.empty();
+            return Optional.empty();
         }
     }
 }
@@ -37,10 +38,14 @@ public class Averages {
 //        DoubleStream.iterate(0, x -> ThreadLocalRandom.current().nextDouble(-Math.PI, Math.PI))
                 .limit(80_000_000L)
                 .parallel()
-                .map(x -> Math.sin(x))
+//                .map(x -> Math.sin(x))
+                .map(Math::sin)
 //                .forEachOrdered(System.out::println);
-                .collect(() -> new Average(), (a, v) -> a.include(v), (af, ai) -> af.merge(ai))
-                .get().ifPresent(System.out::println);
+//                .collect(() -> new Average(), (a, v) -> a.include(v), (af, ai) -> af.merge(ai))
+                .collect(Average::new, Average::include, Average::merge)
+                .get()
+                .map(d -> "The average is " + d)
+                .ifPresent(System.out::println);
 //                .forEach(System.out::println);
         long time = System.nanoTime() - start;
 
