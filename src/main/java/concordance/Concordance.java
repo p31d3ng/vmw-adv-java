@@ -32,7 +32,7 @@ public class Concordance {
 //        Comparator<Map.Entry<String, Long>> rev = comp.reversed();
 
         Comparator<Map.Entry<String, Long>> rev = Map.Entry.<String, Long>comparingByValue().reversed();
-        
+
         Pattern WORD_BOUNDARY = Pattern.compile("\\W+");
         try (Stream<String> ss = Files.lines(Paths.get("PrideAndPrejudice.txt"));) {
             Map<String, Long> m1 = ss
