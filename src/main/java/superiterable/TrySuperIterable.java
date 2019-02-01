@@ -5,9 +5,19 @@ import students.Student;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class TrySuperIterable {
+    public static String getLetterGrade(Student s) {
+        double gpa = s.getGpa();
+        if (gpa > 3.7) return "A";
+        if (gpa > 3.3) return "B";
+        if (gpa > 2.9) return "C";
+        if (gpa > 2.5) return "D";
+        return "F";
+    }
     public static void main(String[] args) {
         SuperIterable<String> sis = SuperIterable.of(Arrays.asList("Fred", "Jim", "Sheila"));
 
@@ -112,6 +122,10 @@ public class TrySuperIterable {
                 .filter(s -> s.getGpa() > 3)
                 .flatMap(s -> s.getCourses().stream().map(c -> s.getName() + " takes " + c))
                 .forEach(System.out::println);
+
+        Map<String, Long> theMap = studentList.stream()
+                .collect(Collectors.groupingBy(TrySuperIterable::getLetterGrade, Collectors.counting()));
+        System.out.println("Results:\n" + theMap);
     }
 
 

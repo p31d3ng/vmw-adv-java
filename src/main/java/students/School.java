@@ -97,5 +97,7 @@ public class School {
 
         List<String> names = Arrays.asList("Fred", "Jim", "Sheila");
         showStudents(getStudentByCriterion(names, s -> s.length() > 3));
+
+
     }
 }
